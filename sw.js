@@ -21,10 +21,12 @@ var config = {
 };
 
 function cacheName (key, opts) {
-  return `${opts.version}-${key}`;
+  console.log("> cacheName");
+  return ${opts.version}+'-'+${key};
 }
 
 function addToCache (cacheKey, request, response) {
+  console.log("> addToCache");
   if (response.ok) {
     var copy = response.clone();
     caches.open(cacheKey).then( cache => {
@@ -35,15 +37,17 @@ function addToCache (cacheKey, request, response) {
 }
 
 function fetchFromCache (event) {
+  console.log("> fetchFromCache");
   return caches.match(event.request).then(response => {
     if (!response) {
-      throw Error(`${event.request.url} not found in cache`);
+      throw Error(${event.request.url}+' not found in cache');
     }
     return response;
   });
 }
 
 function offlineResponse (resourceType, opts) {
+  console.log("> offlineResponse");
   if (resourceType === 'image') {
     return new Response(opts.offlineImage,
       { headers: { 'Content-Type': 'image/svg+xml' } }
@@ -56,6 +60,7 @@ function offlineResponse (resourceType, opts) {
 
 self.addEventListener('install', event => {
   function onInstall (event, opts) {
+    console.log("> onInstall");
     var cacheKey = cacheName('static', opts);
     return caches.open(cacheKey)
       .then(cache => cache.addAll(opts.staticCacheItems));
@@ -67,8 +72,9 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  
+  console.log("> activate");
   function onActivate (event, opts) {
+    console.log("> onActivate");    
     return caches.keys()
       .then(cacheKeys => {
         var oldCacheKeys = cacheKeys.filter(key => key.indexOf(opts.version) !== 0);
@@ -84,8 +90,10 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-
+  console.log("> fetch");
   function shouldHandleFetch (event, opts) {
+    console.log("> shouldHandleFetch");
+
     var request            = event.request;
     var url                = new URL(request.url);
     var criteria           = {
@@ -94,10 +102,12 @@ self.addEventListener('fetch', event => {
     };
     var failingCriteria    = Object.keys(criteria)
       .filter(criteriaKey => !criteria[criteriaKey]);
+
     return !failingCriteria.length;
   }
 
   function onFetch (event, opts) {
+    console.log("> onFetch");
     var request = event.request;
     var acceptHeader = request.headers.get('Accept');
     var resourceType = 'static';
