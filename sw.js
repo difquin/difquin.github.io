@@ -22,7 +22,7 @@ var config = {
 
 function cacheName (key, opts) {
   console.log("> cacheName");
-  return ${opts.version}+'-'+${key};
+  return `${opts.version}-${key}`;
 }
 
 function addToCache (cacheKey, request, response) {
@@ -40,7 +40,7 @@ function fetchFromCache (event) {
   console.log("> fetchFromCache");
   return caches.match(event.request).then(response => {
     if (!response) {
-      throw Error(${event.request.url}+' not found in cache');
+      throw Error(`${event.request.url} not found in cache`);
     }
     return response;
   });
