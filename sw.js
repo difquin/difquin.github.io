@@ -4,7 +4,6 @@
 var config = {
   version: 'achilles',
   staticCacheItems: [
-    '/test.png',
     '/test.css',
     '/test.js',
     '/offline/',
