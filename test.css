@@ -1,0 +1,20 @@
+body {
+	margin:0;
+}
+
+.test {
+	background:peru;
+	color:white;
+	font-size:24px;
+	padding:30px;
+}
+.image {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 500px;
+	max-height: 800px;
+	background-image:url('test.png');
+	background-size: cover;
+	background-position: center center;
+}
