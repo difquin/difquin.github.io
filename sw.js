@@ -1,6 +1,6 @@
 /* global self, caches, fetch, URL, Response */
 'use strict';
-
+console.log("SW START")
 var config = {
   version: 'achilles',
   staticCacheItems: [
